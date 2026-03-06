@@ -1,0 +1,199 @@
+/* ===== General Styles ===== */
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  background-color: #000000;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+}
+
+header h1 {
+  margin: 0;
+  font-weight: 500;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+/* ===== Main ===== */
+main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+/* ===== Form Section ===== */
+.form-section {
+  margin-bottom: 30px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+form input, form button {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form input:focus {
+  outline: none;
+  border-color: #0b5394;
+}
+
+form button {
+  background-color: #e74fdb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background-color: #420435;
+}
+
+/* ===== Table Section ===== */
+.table-section {
+  overflow-x: auto; /* allows horizontal scroll on small screens */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  min-width: 600px; /* ensures table has a base width */
+}
+
+thead {
+  background-color: #e74fdb;
+  color: white;
+}
+
+thead th {
+  text-align: left;
+  padding: 12px;
+}
+
+tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* ===== Buttons in Table ===== */
+button.edit {
+  background-color: #f0ad4e;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+button.delete {
+  background-color: #d9534f;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+button.edit:hover, button.delete:hover {
+  opacity: 0.8;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 600px) {
+  table {
+    min-width: 100%; /* allow horizontal scroll */
+  }
+
+  thead {
+    display: none; /* hide table header on small screens */
+  }
+
+  tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+  }
+
+  tbody td button {
+    width: 48%;
+    margin: 5px 0 0 0;
+  }
+
+  tbody td:last-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+}
+
+/* Make body full height and use flex column */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
+  margin: 0;
+  padding: 0;
+}
+
+/* Main content grows to fill space */
+main {
+  flex: 1; /* takes remaining space between header and footer */
+}
+
+/* Footer styling */
+footer {
+  background-color: #0f0f0f;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+}

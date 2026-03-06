@@ -1,64 +1,64 @@
+const apiURL = "https://it112-week7-fullstackstarter-1.onrender.com/api/users";
+
 const userForm = document.getElementById("userForm");
-const userList = document.getElementById("userList");
-const msg = document.getElementById("msg");
+const usersTableBody = document.querySelector("#usersTable tbody");
 
-function showMessage(text, type = "success") {
-  msg.innerHTML = `<div class="alert alert-${type}">${text}</div>`;
-  setTimeout(() => (msg.innerHTML = ""), 2500);
-}
-
-async function loadUsers() {
-  const res = await fetch("/api/users");
+// Fetch & display users
+async function fetchUsers() {
+  usersTableBody.innerHTML = "";
+  const res = await fetch(apiURL);
   const users = await res.json();
 
-  userList.innerHTML = "";
-  if (!users.length) {
-    userList.innerHTML = `<div class="text-muted">No users yet.</div>`;
-    return;
-  }
-
-  users.forEach(u => {
-    const item = document.createElement("div");
-    item.className = "list-group-item d-flex justify-content-between align-items-center";
-    item.innerHTML = `
-      <div>
-        <div class="fw-semibold">${u.name}</div>
-        <div class="text-muted">${u.email}${u.age ? " • Age " + u.age : ""}</div>
-      </div>
-      <button class="btn btn-sm btn-outline-danger">Delete</button>
+  users.forEach(user => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td data-label="Name">${user.name}</td>
+      <td data-label="Email">${user.email}</td>
+      <td data-label="Age">${user.age || "N/A"}</td>
+      <td data-label="Actions">
+        <button class="edit" onclick="editUser('${user._id}', '${user.name}')">Edit</button>
+        <button class="delete" onclick="deleteUser('${user._id}')">Delete</button>
+      </td>
     `;
-
-    item.querySelector("button").addEventListener("click", async () => {
-      await fetch(`/api/users/${u._id}`, { method: "DELETE" });
-      showMessage("User deleted", "warning");
-      loadUsers();
-    });
-
-    userList.appendChild(item);
+    usersTableBody.appendChild(tr);
   });
 }
 
+// Add new user
 userForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(userForm);
-  const payload = Object.fromEntries(formData.entries());
-  if (payload.age === "") delete payload.age;
-
-  const res = await fetch("/api/users", {
+  const data = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    age: formData.get("age") || null
+  };
+  await fetch(apiURL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(data)
   });
-
-  const data = await res.json();
-  if (!res.ok) {
-    showMessage(data.error || "Failed to save", "danger");
-    return;
-  }
-
   userForm.reset();
-  showMessage("User saved!");
-  loadUsers();
+  fetchUsers();
 });
 
-loadUsers();
+// Delete user
+async function deleteUser(id) {
+  await fetch(`${apiURL}/${id}`, { method: "DELETE" });
+  fetchUsers();
+}
+
+// Edit user
+function editUser(id, currentName) {
+  const newName = prompt("Enter new name:", currentName);
+  if (newName) {
+    fetch(`${apiURL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: newName })
+    }).then(fetchUsers);
+  }
+}
+
+// Initial load
+fetchUsers();
