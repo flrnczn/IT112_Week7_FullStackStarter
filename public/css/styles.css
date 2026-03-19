@@ -8,7 +8,7 @@ body {
 }
 
 header, footer {
-  background-color: #000000;
+  background-color: #ec6d98;
   color: white;
   text-align: center;
   padding: 15px 0;
@@ -192,7 +192,7 @@ main {
 
 /* Footer styling */
 footer {
-  background-color: #0f0f0f;
+  background-color: #ec6d98;
   color: white;
   text-align: center;
   padding: 15px 0;
